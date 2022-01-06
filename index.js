@@ -40,6 +40,15 @@ const prompt = () => {
             else if (promptData.options === "View all Roles") {
                 viewRole()
             }
+            else if (promptData.options === "Add a Department") {
+                addDepartment()
+            }
+            else if (promptData.options === "Add a Role") {
+                addRole()
+            }
+            else if (promptData.options === "Add an Employee") {
+                addEmployee()
+            }
            
         });
 }
@@ -64,4 +73,76 @@ function viewRole() {
         prompt();
     });
 }
+function addDepartment () {
+    inquirer.prompt([{
+        type: 'input',
+        message: 'What is the New Department name?',
+        name: 'departmentName'
+    }])
+    .then(response =>{
+        const params = [response.departmentName]
+        db.query('INSERT INTO departments (name) VALUES (?)',params,(err, results)=>{
+        viewAllDepartments()
+        });
+    })
+}
+
+function addRole () {
+    inquirer.prompt([
+        {
+        type: 'input',
+        message: 'Please enter the TITLE',
+        name: 'title'
+        },
+        {
+        type: 'input',
+        message: 'Please enter the SALARY for this role',
+        name: 'salary'
+        },
+        {
+        type: 'input',
+        message: 'Please enter the DEPARTMENT ID',
+        name: 'departmentId'
+        }
+    ])
+    .then(response =>{
+        const params = [response.title, response.salary, response.departmentId]
+        db.query('INSERT INTO roles (title, salary, department_id) VALUES ( ?, ?, ?)',params,(err, results)=>{
+        viewRole()
+        });
+    })
+}
+
+function addEmployee () {
+    inquirer.prompt([
+        {
+        type: 'input',
+        message: 'Please enter the employee FIRST NAME',
+        name: 'firstName'
+        },
+        {
+        type: 'input',
+        message: 'Please enter the employee LAST NAME',
+        name: 'lastName'
+        },
+        {
+        type: 'input',
+        message: 'Please enter the employee ROLE ID',
+        name: 'roleId'
+        },
+        {
+        type: 'input',
+        message: 'Please enter the employee MANAGER ID',
+        name: 'managerId'
+        }
+    ])
+    .then(response =>{
+        const params = [response.firstName, response.lastName, response.roleId, response.managerId]
+        db.query('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ( ?, ?, ?, ?)',params,(err, results)=>{
+        viewAllEmployees()
+        });
+    })
+}
+
+
 
