@@ -49,7 +49,10 @@ const prompt = () => {
             else if (promptData.options === "Add an Employee") {
                 addEmployee()
             }
-           
+            else if (promptData.options === "Update an Employee Role") {
+                updateEmployeeRole()
+            }
+    
         });
 }
 
@@ -139,6 +142,27 @@ function addEmployee () {
     .then(response =>{
         const params = [response.firstName, response.lastName, response.roleId, response.managerId]
         db.query('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ( ?, ?, ?, ?)',params,(err, results)=>{
+        viewAllEmployees()
+        });
+    })
+}
+
+function updateEmployeeRole(){
+    inquirer.prompt([
+        {
+        type: 'input',
+        message: 'What is the employee ID you want to update?',
+        name: 'employeeID'
+        },
+        {
+        type: 'input',
+        message: 'What is the NEW ROLE id?',
+        name: 'updateRole'
+        }
+    ])
+    .then(response =>{
+        const params = [response.employeeID, response.updateRole]
+        db.query('UPDATE employees SET role_id = ? WHERE id',params,(err, results)=>{
         viewAllEmployees()
         });
     })
