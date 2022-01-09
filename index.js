@@ -27,7 +27,7 @@ const prompt = () => {
             type: 'list',
             name: 'options',
             message: 'What would you like to do?',
-            choices: ["View All Employees", "View all Departments", "View all Roles", "Add a Department", "Add a Role", "Add an Employee", "Update an Employee Role",],
+            choices: ["View All Employees", "View all Departments", "View all Roles", "Add a Department", "Add a Role", "Add an Employee", "Update an Employee Role","Update an Employee Manager",],
         },
     ])
         .then(promptData => {
@@ -51,6 +51,9 @@ const prompt = () => {
             }
             else if (promptData.options === "Update an Employee Role") {
                 updateEmployeeRole()
+            }
+            else if (promptData.options === "Update an Employee Manager") {
+                updateEmployeeManager()
             }
     
         });
@@ -161,8 +164,29 @@ function updateEmployeeRole(){
         }
     ])
     .then(response =>{
-        const params = [response.employeeID, response.updateRole]
-        db.query('UPDATE employees SET role_id = ? WHERE id',params,(err, results)=>{
+        const params = [response.updateRole, response.employeeID]
+        db.query('UPDATE employees SET role_id = ? WHERE id = ?',params,(err, results)=>{
+        viewAllEmployees()
+        });
+    })
+}
+
+function updateEmployeeManager(){
+    inquirer.prompt([
+        {
+        type: 'input',
+        message: 'What is the employee ID you want to update?',
+        name: 'employeeID'
+        },
+        {
+        type: 'input',
+        message: 'What is the NEW Manager id?',
+        name: 'updateManager'
+        }
+    ])
+    .then(response =>{
+        const params = [response.updateManager, response.employeeID]
+        db.query('UPDATE employees SET manager_id = ? WHERE id = ?',params,(err, results)=>{
         viewAllEmployees()
         });
     })
