@@ -27,7 +27,7 @@ const prompt = () => {
             type: 'list',
             name: 'options',
             message: 'What would you like to do?',
-            choices: ["View All Employees", "View all Departments", "View all Roles", "Add a Department", "Add a Role", "Add an Employee", "Update an Employee Role","Update an Employee Manager",],
+            choices: ["View All Employees", "View all Departments", "View all Roles", "Add a Department", "Add a Role", "Add an Employee", "Update an Employee Role","Update an Employee Manager","DELETE Employees","DELETE Roles", "DELETE Departments",],
         },
     ])
         .then(promptData => {
@@ -54,6 +54,15 @@ const prompt = () => {
             }
             else if (promptData.options === "Update an Employee Manager") {
                 updateEmployeeManager()
+            }
+            else if (promptData.options === "DELETE Employees") {
+                deleteEmployees()
+            }
+            else if (promptData.options === "DELETE Roles") {
+                deleteRoles()
+            }
+            else if (promptData.options === "DELETE Departments") {
+                deleteDepartments()
             }
     
         });
@@ -188,6 +197,54 @@ function updateEmployeeManager(){
         const params = [response.updateManager, response.employeeID]
         db.query('UPDATE employees SET manager_id = ? WHERE id = ?',params,(err, results)=>{
         viewAllEmployees()
+        });
+    })
+}
+
+function deleteEmployees(){
+    inquirer.prompt([
+        {
+        type: 'input',
+        message: 'What is the employee ID you want to delete?',
+        name: 'employeeID'
+        },
+    ])
+    .then(response =>{
+        const params = [response.employeeID]
+        db.query('DELETE FROM employees WHERE id = ?',params,(err, results)=>{
+        viewAllEmployees()
+        });
+    })
+}
+
+function deleteRoles(){
+    inquirer.prompt([
+        {
+        type: 'input',
+        message: 'What is the role ID you want to delete?',
+        name: 'roleID'
+        },
+    ])
+    .then(response =>{
+        const params = [response.roleID]
+        db.query('DELETE FROM roles WHERE id = ?',params,(err, results)=>{
+        viewRole()
+        });
+    })
+}
+
+function deleteDepartments(){
+    inquirer.prompt([
+        {
+        type: 'input',
+        message: 'What is the department ID you want to delete?',
+        name: 'departmentID'
+        },
+    ])
+    .then(response =>{
+        const params = [response.departmentID]
+        db.query('DELETE FROM departments WHERE id = ?',params,(err, results)=>{
+        viewAllDepartments()
         });
     })
 }
