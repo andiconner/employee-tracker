@@ -27,32 +27,35 @@ const prompt = () => {
             type: 'list',
             name: 'options',
             message: 'What would you like to do?',
-            choices: ["View All Employees", "View all Departments", "View all Roles", "Add a Department", "Add a Role", "Add an Employee", "Update an Employee Role","Update an Employee Manager","DELETE Employees","DELETE Roles", "DELETE Departments",],
+            choices: ["VIEW all Employees", "VIEW all Departments", "VIEW all Roles", "VIEW Employees by Department", "ADD a Department", "ADD a Role", "ADD an Employee", "UPDATE an Employee Role","UPDATE an Employee Manager","DELETE Employees","DELETE Roles", "DELETE Departments",],
         },
     ])
         .then(promptData => {
-            if (promptData.options === "View All Employees") {
+            if (promptData.options === "VIEW all Employees") {
                 viewAllEmployees()
             }
-            else if (promptData.options === "View all Departments") {
+            else if (promptData.options === "VIEW all Departments") {
                 viewAllDepartments()
             }
-            else if (promptData.options === "View all Roles") {
+            else if (promptData.options === "VIEW all Roles") {
                 viewRole()
             }
-            else if (promptData.options === "Add a Department") {
+            else if (promptData.options === "VIEW Employees by Department") {
+                viewEmployeesByDepartment()
+            }
+            else if (promptData.options === "ADD a Department") {
                 addDepartment()
             }
-            else if (promptData.options === "Add a Role") {
+            else if (promptData.options === "ADD a Role") {
                 addRole()
             }
-            else if (promptData.options === "Add an Employee") {
+            else if (promptData.options === "ADD an Employee") {
                 addEmployee()
             }
-            else if (promptData.options === "Update an Employee Role") {
+            else if (promptData.options === "UPDATE an Employee Role") {
                 updateEmployeeRole()
             }
-            else if (promptData.options === "Update an Employee Manager") {
+            else if (promptData.options === "UPDATE an Employee Manager") {
                 updateEmployeeManager()
             }
             else if (promptData.options === "DELETE Employees") {
@@ -85,6 +88,13 @@ function viewAllDepartments() {
 function viewRole() {
     db.query('SELECT * FROM roles', function (err, results) {
         console.table(results);
+        prompt();
+    });
+}
+
+function viewEmployeesByDepartment(){
+    db.query('SELECT departments.name AS department, roles.title AS title, employees.id AS id, employees.first_name AS first_name, employees.last_name AS last_name, roles.salary AS salary, employees.manager_id AS manager_id FROM departments JOIN roles ON roles.department_id = departments.id JOIN employees ON employees.role_id = roles.id;', 
+    function (err, results) {console.table(results);
         prompt();
     });
 }
