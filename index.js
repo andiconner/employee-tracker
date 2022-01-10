@@ -27,7 +27,7 @@ const prompt = () => {
             type: 'list',
             name: 'options',
             message: 'What would you like to do?',
-            choices: ["VIEW all Employees", "VIEW all Departments", "VIEW all Roles", "VIEW Employees by Department", "ADD a Department", "ADD a Role", "ADD an Employee", "UPDATE an Employee Role","UPDATE an Employee Manager","DELETE Employees","DELETE Roles", "DELETE Departments",],
+            choices: ["VIEW all Employees", "VIEW all Departments", "VIEW all Roles", "VIEW Employees by Department","VIEW Employees by Manager", "ADD a Department", "ADD a Role", "ADD an Employee", "UPDATE an Employee Role","UPDATE an Employee Manager","DELETE Employees","DELETE Roles", "DELETE Departments",],
         },
     ])
         .then(promptData => {
@@ -42,6 +42,9 @@ const prompt = () => {
             }
             else if (promptData.options === "VIEW Employees by Department") {
                 viewEmployeesByDepartment()
+            }
+            else if (promptData.options === "VIEW Employees by Manager") {
+                viewEmployeesByManager()
             }
             else if (promptData.options === "ADD a Department") {
                 addDepartment()
@@ -98,6 +101,14 @@ function viewEmployeesByDepartment(){
         prompt();
     });
 }
+
+function viewEmployeesByManager(){
+    db.query('SELECT e.first_name AS Employee, m.first_name AS Manager FROM employees e INNER JOIN employees m ON m.id = e.manager_id;', 
+    function (err, results) {console.table(results);
+        prompt();
+    });
+}
+
 function addDepartment () {
     inquirer.prompt([{
         type: 'input',

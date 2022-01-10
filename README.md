@@ -16,12 +16,12 @@ To build a command-line application from scratch to manage a company's employee 
 ## Installation
 
 -	Clone https://github.com/andiconner/employee-tracker.git
--	On the terminal command-line type “node index.js” to start the app
--	Choose an option on the command-line in order to  VIEW, ADD, UPDATE or DELETE the departments, roles, and employees in your business.
+-	On the terminal command-line type “node index” to start the app
+-	Choose an option on the command-line in order to  VIEW, ADD, UPDATE or DELETE the departments, roles, and employees in your Company.
 
 ## Usage 
 
-To  view, manage, orgqanize and plan the company's  departments, roles, and employees.
+To  view, manage, organize and plan the company's  departments, roles, and employees.
 
 [Here is a video showing how to use the app]()
 
@@ -29,15 +29,16 @@ To  view, manage, orgqanize and plan the company's  departments, roles, and empl
 
 ## Test
 
-This is all the PASSED tests
-
-![This is all the PASSED tests](/assets/passed.png "Passed tests")
-
-This is how the HTML page created will look like after running the app
-
-![This is how the HTML page created will look like after running the app](/assets/my_team.png "My team")
+Here are some images showing the data from the choice made:
 
 
+![This is how to start the app](/assets/SQL_app_start.png)
+
+![This is the Employees table by Department](/assets/SQL_employees_by_department.png)
+
+![This is the Employees table](/assets/SQL_employees_table.png)
+
+![This is the Roles table](/assets/SQL_roles_table.png)
 
 
 ## Questions
