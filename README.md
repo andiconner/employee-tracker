@@ -23,7 +23,7 @@ To build a command-line application from scratch to manage a company's employee 
 
 To  view, manage, organize and plan the company's  departments, roles, and employees.
 
-[Here is a video showing how to use the app]()
+[Here is a video showing how to use the app](https://watch.screencastify.com/v/JA2FB2MIJzhX3E660RR4)
 
 
 
