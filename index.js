@@ -27,7 +27,7 @@ const prompt = () => {
             type: 'list',
             name: 'options',
             message: 'What would you like to do?',
-            choices: ["VIEW all Employees", "VIEW all Departments", "VIEW all Roles", "VIEW Employees by Department","VIEW Employees by Manager", "ADD a Department", "ADD a Role", "ADD an Employee", "UPDATE an Employee Role","UPDATE an Employee Manager","DELETE Employees","DELETE Roles", "DELETE Departments",],
+            choices: ["VIEW all Employees", "VIEW all Departments", "VIEW all Roles", "VIEW Employees by Department","VIEW Employees by Manager", "VIEW Department Budget","ADD a Department", "ADD a Role", "ADD an Employee", "UPDATE an Employee Role","UPDATE an Employee Manager","DELETE Employees","DELETE Roles", "DELETE Departments",],
         },
     ])
         .then(promptData => {
@@ -45,6 +45,9 @@ const prompt = () => {
             }
             else if (promptData.options === "VIEW Employees by Manager") {
                 viewEmployeesByManager()
+            }
+            else if (promptData.options === "VIEW Department Budget") {
+                viewDepartmentBudget()
             }
             else if (promptData.options === "ADD a Department") {
                 addDepartment()
@@ -104,6 +107,13 @@ function viewEmployeesByDepartment(){
 
 function viewEmployeesByManager(){
     db.query('SELECT e.first_name AS Employee, m.first_name AS Manager FROM employees e INNER JOIN employees m ON m.id = e.manager_id;', 
+    function (err, results) {console.table(results);
+        prompt();
+    });
+}
+
+function viewDepartmentBudget(){
+    db.query('SELECT departments.name AS department, SUM(roles.salary) AS departmentBudget FROM departments LEFT JOIN roles ON roles.department_id = departments.id LEFT JOIN employees ON roles.id = employees.role_id GROUP BY department_id, departments.name;', 
     function (err, results) {console.table(results);
         prompt();
     });

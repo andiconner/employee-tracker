@@ -11,4 +11,12 @@ e.first_name AS Employee, m.first_name AS Manager
 FROM employees e
 INNER JOIN employees m ON m.id = e.manager_id;
 
+--Department budget
+SELECT departments.name AS department, SUM(roles.salary) AS departmentBudget 
+FROM departments
+LEFT JOIN roles ON roles.department_id = departments.id
+LEFT JOIN employees ON roles.id = employees.role_id
+GROUP BY department_id, departments.name;
+
+
 
